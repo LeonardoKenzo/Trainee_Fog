@@ -1,0 +1,70 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public Rigidbody2D rigidbody2d;
+
+    [Header("Movimentacao horizontal")]
+    [SerializeField] private float _moveSpeed = 7f;
+    private float _horizontalMovement;
+
+
+    [Header("Pulo")]
+    [SerializeField] private float _jumpForce = 5f;
+    private float _jumpsRemaining;
+    private float _totalJumps = 2;
+
+    [Header("Ground Check")]
+    [SerializeField] private float _groundCheckPositionHeight;
+    [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.5f, 0.05f);
+    [SerializeField] private LayerMask _groundLayer;
+
+    void Update()
+    {
+        //omves the player
+        rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocity.y);
+
+        //check if player is on the ground
+        GroundCheck();
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        _horizontalMovement = context.ReadValue<Vector2>().x;
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        //if hold down the jump button = full jump force
+        if (context.performed && _jumpsRemaining > 0)
+        {
+            rigidbody2d.linearVelocityY = _jumpForce;
+            _jumpsRemaining--;
+        }
+        //if light tap the jump button = half the jump
+        else if (context.canceled && _jumpsRemaining  > 0)
+        {
+            rigidbody2d.linearVelocityY = rigidbody2d.linearVelocityY * 0.5f;
+            _jumpsRemaining--;
+        }
+    }
+
+    //function to check if the player is touching the ground
+    private void GroundCheck()
+    {
+        if (Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize, 0, _groundLayer))
+        {
+            //reset the amount of jumps
+            _jumpsRemaining = _totalJumps;
+        }
+    }
+
+
+    //draw a gizmo in scene to check if the player is touching the ground
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize);
+    }
+}
