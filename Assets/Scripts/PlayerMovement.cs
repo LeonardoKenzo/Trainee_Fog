@@ -20,13 +20,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.5f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
 
+    [Header("Gravity")]
+    [SerializeField] private float _normalGravityForce = 1f;
+    [SerializeField] private float _gravityMultiplier = 2f;
+    [SerializeField] private float _maxGravityScale = 18f;
+
     void Update()
     {
-        //omves the player
+        //moves the player
         rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocity.y);
+        GravityIncrease();
 
         //check if player is on the ground
         GroundCheck();
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -57,6 +64,21 @@ public class PlayerMovement : MonoBehaviour
         {
             //reset the amount of jumps
             _jumpsRemaining = _totalJumps;
+        }
+    }
+
+    //increases the fall of the player
+    private void GravityIncrease()
+    {
+        if(rigidbody2d.linearVelocityY < 0 && rigidbody2d.gravityScale < _maxGravityScale)
+        {
+            rigidbody2d.gravityScale *= _gravityMultiplier;
+            if(rigidbody2d.gravityScale >= _maxGravityScale)
+                rigidbody2d.gravityScale = _maxGravityScale;
+        }
+        else
+        {
+            rigidbody2d.gravityScale = _normalGravityForce;
         }
     }
 
