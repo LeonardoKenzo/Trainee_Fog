@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody2D rigidbody2d;
 
     [Header("Movimentacao horizontal")]
+    [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private float _moveSpeed = 7f;
     private float _horizontalMovement;
 
@@ -25,11 +25,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _gravityMultiplier = 2f;
     [SerializeField] private float _maxGravityScale = 18f;
 
+    private void Start()
+    {
+        rigidbody2d = gameObject.GetComponent<Rigidbody2D>();    
+    }
+
     void Update()
     {
         //moves the player
-        rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocity.y);
+        rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
         GravityIncrease();
+
+        //flip the sprite player
+        if (_horizontalMovement > 0)
+            transform.localScale = new Vector2(1f, transform.localScale.y);
+        else if (_horizontalMovement < 0)
+            transform.localScale = new Vector2(-1f, transform.localScale.y);
 
         //check if player is on the ground
         GroundCheck();

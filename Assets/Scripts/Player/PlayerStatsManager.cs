@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStatsManager : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private int _hpMax = 3;
+    [SerializeField] private int _hpMax = 5;
     [SerializeField] private int _hp;
 
     [Header("Magic")]
