@@ -10,14 +10,13 @@ public class PlayerStatsManager : MonoBehaviour
     [SerializeField] private int _mpMax = 20;
     [SerializeField] private int _mp;
 
-
     private void Start()
     {
         _hp = _hpMax;
         _mp = _mpMax;
     }
 
-    //get set hp
+    //hp functions
     public int GetHP() {  return _hp; }
     public void SetHP(int _hp) {
         if (_hp > _hpMax)
@@ -26,8 +25,10 @@ public class PlayerStatsManager : MonoBehaviour
             _hp = 0;
         this._hp = _hp;
     }
+    public void TakeDamage(int _damage) {_hp -= _damage; }
+    public void Heal(int _healPoints) { _hp += _healPoints; }
 
-    //get set mp
+    //mp functions
     public int GetMP() { return _mp; }
     public void SetMP(int _mp) {
         if(_mp > _mpMax)
@@ -36,4 +37,6 @@ public class PlayerStatsManager : MonoBehaviour
             _mp = 0;
         this._mp = _mp; 
     }
+    public void CastMagic(int _cost) { _mp -= _cost; }
+    public void RestoreMagic(int _restaureMp) { _mp += _restaureMp; }
 }

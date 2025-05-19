@@ -38,6 +38,7 @@ public class TriangleMovement : MonoBehaviour
     //when coliding with something, turn enemy
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        TurnDirection();
+        if(collision.gameObject.layer != _groundLayer)
+            TurnDirection();
     }
 }

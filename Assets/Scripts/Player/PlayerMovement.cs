@@ -3,12 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     [Header("Movimentacao horizontal")]
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private float _moveSpeed = 7f;
     private float _horizontalMovement;
-
 
     [Header("Pulo")]
     [SerializeField] private float _jumpForce = 5f;
@@ -25,13 +23,36 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _gravityMultiplier = 2f;
     [SerializeField] private float _maxGravityScale = 18f;
 
+    [Header("Stun")]
+    [SerializeField] private float _stunnedTime = 0f;
+    [SerializeField] private float _hitStun = 2f;
+
+    [Header("Stats")]
+    [SerializeField] private PlayerStatsManager _statsManager;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            _stunnedTime = _hitStun;
+            rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 2f, 1f), ForceMode2D.Impulse);
+            _statsManager.TakeDamage(1);
+        }
+    }
     private void Start()
     {
-        rigidbody2d = gameObject.GetComponent<Rigidbody2D>();    
+        rigidbody2d = gameObject.GetComponent<Rigidbody2D>();  
+        _statsManager = gameObject.GetComponent<PlayerStatsManager>();
     }
 
     void Update()
     {
+        //is is stunned, stop moving
+        if(_stunnedTime > 0f)
+        {
+            rigidbody2d.linearVelocity = Vector2.zero;
+            _stunnedTime -= Time.deltaTime;
+        }
         //moves the player
         rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
         GravityIncrease();
@@ -44,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
 
         //check if player is on the ground
         GroundCheck();
-
     }
 
     public void Move(InputAction.CallbackContext context)
