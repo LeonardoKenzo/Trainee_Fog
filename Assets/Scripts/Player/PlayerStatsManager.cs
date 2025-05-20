@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerStatsManager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class PlayerStatsManager : MonoBehaviour
     [Header("Magic")]
     [SerializeField] private int _mpMax = 20;
     [SerializeField] private int _mp;
+
+    [Header("UI")]
+    [SerializeField] private Image _hpBar;
+    [SerializeField] private Image _mpBar;
 
     private void Start()
     {

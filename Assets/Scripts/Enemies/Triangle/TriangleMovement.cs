@@ -35,10 +35,10 @@ public class TriangleMovement : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
     }
 
-    //when coliding with something, turn enemy
+    //when coliding with something, turn enemy Direction
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer != _groundLayer)
+        if(collision.gameObject.CompareTag("Player"))
             TurnDirection();
     }
 }
