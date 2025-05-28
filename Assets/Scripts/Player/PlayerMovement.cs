@@ -25,20 +25,21 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Stun")]
     [SerializeField] private float _stunnedTime = 0f;
-    [SerializeField] private float _hitStun = 2f;
+    [SerializeField] private float _hitStun = 1f;
 
     [Header("Stats")]
     [SerializeField] private PlayerStatsManager _statsManager;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _stunnedTime = _hitStun;
-            rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 2f, 1f), ForceMode2D.Impulse);
+            rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 3f, 2f), ForceMode2D.Impulse);
             _statsManager.TakeDamage(1);
         }
     }
+
     private void Start()
     {
         rigidbody2d = gameObject.GetComponent<Rigidbody2D>();  
@@ -50,21 +51,23 @@ public class PlayerMovement : MonoBehaviour
         //is is stunned, stop moving
         if(_stunnedTime > 0f)
         {
-            rigidbody2d.linearVelocity = Vector2.zero;
             _stunnedTime -= Time.deltaTime;
         }
-        //moves the player
-        rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
-        GravityIncrease();
+        else
+        {
+            //moves the player
+            rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
+            GravityIncrease();
 
-        //flip the sprite player
-        if (_horizontalMovement > 0)
-            transform.localScale = new Vector2(1f, transform.localScale.y);
-        else if (_horizontalMovement < 0)
-            transform.localScale = new Vector2(-1f, transform.localScale.y);
+            //flip the sprite player
+            if (_horizontalMovement > 0)
+                transform.localScale = new Vector2(1f, transform.localScale.y);
+            else if (_horizontalMovement < 0)
+                transform.localScale = new Vector2(-1f, transform.localScale.y);
 
-        //check if player is on the ground
-        GroundCheck();
+            //check if player is on the ground
+            GroundCheck();
+        }
     }
 
     public void Move(InputAction.CallbackContext context)

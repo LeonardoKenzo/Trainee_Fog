@@ -494,6 +494,9 @@ MonoBehaviour:
   _normalGravityForce: 1
   _gravityMultiplier: 3
   _maxGravityScale: 6
+  _stunnedTime: 0
+  _hitStun: 1
+  _statsManager: {fileID: 5099589870585233178}
 --- !u!114 &5099589870585233178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a427968f3a51834296c32c034ee941a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hpMax: 5
+  _hpMax: 10
   _hp: 0
   _mpMax: 20
   _mp: 0

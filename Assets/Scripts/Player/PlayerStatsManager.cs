@@ -1,19 +1,14 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerStatsManager : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private int _hpMax = 5;
-    [SerializeField] private int _hp;
+    [SerializeField] private int _hpMax = 10;
+    [SerializeField] private float _hp;
 
     [Header("Magic")]
     [SerializeField] private int _mpMax = 20;
-    [SerializeField] private int _mp;
-
-    [Header("UI")]
-    [SerializeField] private Image _hpBar;
-    [SerializeField] private Image _mpBar;
+    [SerializeField] private float _mp;
 
     private void Start()
     {
@@ -22,8 +17,8 @@ public class PlayerStatsManager : MonoBehaviour
     }
 
     //hp functions
-    public int GetHP() {  return _hp; }
-    public void SetHP(int _hp) {
+    public float GetHP() {  return _hp; }
+    public void SetHP(float _hp) {
         if (_hp > _hpMax)
             _hp = _hpMax;
         else if (_hp < 0)
@@ -31,11 +26,11 @@ public class PlayerStatsManager : MonoBehaviour
         this._hp = _hp;
     }
     public void TakeDamage(int _damage) {_hp -= _damage; }
-    public void Heal(int _healPoints) { _hp += _healPoints; }
+    public void Heal(float _healPoints) { _hp += _healPoints; }
 
     //mp functions
-    public int GetMP() { return _mp; }
-    public void SetMP(int _mp) {
+    public float GetMP() { return _mp; }
+    public void SetMP(float _mp) {
         if(_mp > _mpMax)
             _mp = _mpMax;
         else if(_mp < 0) 
