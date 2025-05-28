@@ -1254,18 +1254,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4858991450896743927, guid: a33517f65e75e294d8ad935d8a18a356, type: 3}
-      propertyPath: _hitStun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4858991450896743927, guid: a33517f65e75e294d8ad935d8a18a356, type: 3}
-      propertyPath: _statsManager
-      value: 
-      objectReference: {fileID: 1888201454}
-    - target: {fileID: 5099589870585233178, guid: a33517f65e75e294d8ad935d8a18a356, type: 3}
-      propertyPath: _hpMax
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
