@@ -1,17 +1,27 @@
+using System;
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movimentacao horizontal")]
+    [Header("Horizontal Movement")]
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private float _moveSpeed = 7f;
     private float _horizontalMovement;
 
-    [Header("Pulo")]
+    [Header("Jump")]
     [SerializeField] private float _jumpForce = 5f;
     private float _jumpsRemaining;
     private float _totalJumps = 2;
+
+    [Header("Dash")]
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _dashStun;
+    [SerializeField] private float _minDashSpeed;
+    [SerializeField] private float _dashMultiplier;
+    private bool _isDashing = false;
 
     [Header("Ground Check")]
     [SerializeField] private float _groundCheckPositionHeight;
@@ -19,23 +29,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
 
     [Header("Gravity")]
-    [SerializeField] private float _normalGravityForce = 1f;
     [SerializeField] private float _gravityMultiplier = 2f;
     [SerializeField] private float _maxGravityScale = 18f;
+    private float _normalGravityForce = 1f;
 
     [Header("Stun")]
-    [SerializeField] private float _stunnedTime = 0f;
     [SerializeField] private float _hitStun = 1f;
+    private bool _isTakingDamage;
+    private float _stunnedTime = 0f;
 
     [Header("Stats")]
     [SerializeField] private PlayerStatsManager _statsManager;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //the player is stunned and pushed back
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _stunnedTime = _hitStun;
-            rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 3f, 2f), ForceMode2D.Impulse);
+            _isTakingDamage = true;
+            rigidbody2d.linearVelocity = Vector2.zero;
+            rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 4f, 0f), ForceMode2D.Impulse);
             _statsManager.TakeDamage(1);
         }
     }
@@ -48,15 +62,28 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //is is stunned, stop moving
+        //is is stunned, stop moving normaly
         if(_stunnedTime > 0f)
         {
+            //the player is stopped by friction with the floor
+            if (GroundCheck() && !_isDashing)
+                rigidbody2d.linearDamping = 3f;
+
+            //Makes the dash smoother and priorize the enemy hit interaction
+            if (!_isTakingDamage)
+                DashNormalize((int)transform.localScale.x);
+            else
+                _isDashing = false;
+
             _stunnedTime -= Time.deltaTime;
         }
         else
         {
+            _isTakingDamage = false;
+
             //moves the player
             rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
+            rigidbody2d.linearDamping = 0f;
             GravityIncrease();
 
             //flip the sprite player
@@ -65,8 +92,12 @@ public class PlayerMovement : MonoBehaviour
             else if (_horizontalMovement < 0)
                 transform.localScale = new Vector2(-1f, transform.localScale.y);
 
-            //check if player is on the ground
-            GroundCheck();
+            //check if player is on the ground and reset jumps adn dash if is
+            if (GroundCheck())
+            {
+                _jumpsRemaining = _totalJumps;
+                _isDashing = false;
+            }
         }
     }
 
@@ -91,14 +122,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Dash Function
+    public void Dash(InputAction.CallbackContext context)
+    {
+        //if the player is not dashing and is not taking damage, can dash
+        if(context.performed && !_isDashing && !_isTakingDamage)
+        {
+            _stunnedTime = _dashStun;
+            rigidbody2d.gravityScale = 0;
+            rigidbody2d.linearVelocity = new Vector2(transform.localScale.x * _dashSpeed, 0f);
+            _isDashing = true;
+        }
+    }
+
     //function to check if the player is touching the ground
-    private void GroundCheck()
+    private bool GroundCheck()
     {
         if (Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize, 0, _groundLayer))
-        {
-            //reset the amount of jumps
-            _jumpsRemaining = _totalJumps;
-        }
+            return true;
+        else
+            return false;
     }
 
     //increases the fall of the player
@@ -116,6 +159,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //makes the dash smoother
+    private void DashNormalize(int direction)
+    {
+        if (rigidbody2d.linearVelocityX != 0 && Math.Abs(rigidbody2d.linearVelocityX) > Math.Abs(_minDashSpeed) && _isDashing)
+        {
+            rigidbody2d.linearVelocityX *= _dashMultiplier;
+            if (Math.Abs(rigidbody2d.linearVelocityX) <= Math.Abs(_minDashSpeed))
+                rigidbody2d.linearVelocityX = _minDashSpeed * direction;
+        }
+        else
+            rigidbody2d.linearVelocityX = _minDashSpeed * direction;
+    }
 
     //draw a gizmo in scene to check if the player is touching the ground
     private void OnDrawGizmosSelected()
