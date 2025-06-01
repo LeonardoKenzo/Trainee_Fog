@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
             _stunnedTime = _hitStun;
             _isTakingDamage = true;
             rigidbody2d.linearVelocity = Vector2.zero;
+            rigidbody2d.gravityScale = _normalGravityForce;
             rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 4f, 0f), ForceMode2D.Impulse);
             _statsManager.TakeDamage(1);
         }

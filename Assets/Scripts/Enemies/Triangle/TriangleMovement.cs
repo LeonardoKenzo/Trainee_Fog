@@ -11,7 +11,6 @@ public class TriangleMovement : MonoBehaviour
     [Header("Edge of the Ground Check")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Transform _checkPosition;
-    
 
     void Start()
     {
@@ -20,7 +19,7 @@ public class TriangleMovement : MonoBehaviour
 
     void Update()
     {
-        //if the enemy is stunned
+        //if the enemy is stunned stop the enemy
         if(_stunTime > 0f)
         {
             _enemyRigidbody2d.linearVelocity = Vector2.zero;
@@ -45,7 +44,7 @@ public class TriangleMovement : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
     }
 
-    //when coliding with something, turn enemy Direction
+    //when coliding with something
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))

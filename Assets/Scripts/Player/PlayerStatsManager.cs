@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerStatsManager : MonoBehaviour
@@ -16,6 +17,14 @@ public class PlayerStatsManager : MonoBehaviour
         _mp = _mpMax;
     }
 
+    private void Update()
+    {
+        if (_hp <= 0)
+        {
+            Die();
+        }
+    }
+
     //hp functions
     public float GetHP() {  return _hp; }
     public void SetHP(float _hp) {
@@ -27,6 +36,12 @@ public class PlayerStatsManager : MonoBehaviour
     }
     public void TakeDamage(int _damage) {_hp -= _damage; }
     public void Heal(float _healPoints) { _hp += _healPoints; }
+    public void Die()
+    {
+        //die animation;
+        Time.timeScale = 0;
+        Debug.Log("Você morreu!");//temporary
+    }
 
     //mp functions
     public float GetMP() { return _mp; }
