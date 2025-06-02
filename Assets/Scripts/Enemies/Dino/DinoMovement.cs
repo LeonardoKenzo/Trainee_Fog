@@ -12,9 +12,13 @@ public class DinoMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Transform _checkPosition;
 
+    [Header("Animation")]
+    private Animator _animator;
+
     void Start()
     {
-        _enemyRigidbody2d = gameObject.GetComponent<Rigidbody2D>();
+        _enemyRigidbody2d = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -22,11 +26,18 @@ public class DinoMovement : MonoBehaviour
         //if the enemy is stunned stop the enemy
         if(_stunTime > 0f)
         {
+            //Idle animation
+            _animator.SetBool("isStunned", true);
+
+            //make the enemy stop
             _enemyRigidbody2d.linearVelocity = Vector2.zero;
             _stunTime -= Time.deltaTime;
         }
         else
         {
+            //run animation
+            _animator.SetBool("isStunned", false);
+
             //moves the enemy
             _enemyRigidbody2d.linearVelocity = new Vector2(_direction * _speed, _enemyRigidbody2d.linearVelocityY);
 

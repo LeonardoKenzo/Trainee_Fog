@@ -41,12 +41,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private PlayerStatsManager _statsManager;
 
+    [Header("Animation")]
+    private Animator _animator;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //the player is stunned and pushed back
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _stunnedTime = _hitStun;
+            _animator.SetBool("IsHurt", true);
             _isTakingDamage = true;
             rigidbody2d.linearVelocity = Vector2.zero;
             rigidbody2d.gravityScale = _normalGravityForce;
@@ -57,8 +61,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        rigidbody2d = gameObject.GetComponent<Rigidbody2D>();  
-        _statsManager = gameObject.GetComponent<PlayerStatsManager>();
+        rigidbody2d = GetComponent<Rigidbody2D>();  
+        _statsManager = GetComponent<PlayerStatsManager>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -81,11 +86,20 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _isTakingDamage = false;
+            _animator.SetBool("IsHurt", false);
+
+            if (GroundCheck() && _horizontalMovement != 0)
+                _animator.SetBool("IsMoving", true);
+            else
+                _animator.SetBool("IsMoving", false);
 
             //moves the player
             rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
             rigidbody2d.linearDamping = 0f;
             GravityIncrease();
+
+            if (rigidbody2d.linearVelocityY > 0)
+                _animator.SetFloat("VelocityY", 1);
 
             //flip the sprite player
             if (_horizontalMovement > 0)
@@ -110,13 +124,13 @@ public class PlayerMovement : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         //if hold down the jump button = full jump force
-        if (context.performed && _jumpsRemaining > 0)
+        if (context.performed && _jumpsRemaining > 0 && !_isTakingDamage)
         {
             rigidbody2d.linearVelocityY = _jumpForce;
             _jumpsRemaining--;
         }
         //if light tap the jump button = half the jump
-        else if (context.canceled && _jumpsRemaining  > 0)
+        else if (context.canceled && _jumpsRemaining  > 0 && !_isTakingDamage)
         {
             rigidbody2d.linearVelocityY = rigidbody2d.linearVelocityY * 0.5f;
             _jumpsRemaining--;
@@ -133,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
             rigidbody2d.gravityScale = 0;
             rigidbody2d.linearVelocity = new Vector2(transform.localScale.x * _dashSpeed, 0f);
             _isDashing = true;
+            _animator.Play("PlayerStartJump", 0, 0f);
         }
     }
 
@@ -151,7 +166,8 @@ public class PlayerMovement : MonoBehaviour
         if(rigidbody2d.linearVelocityY < 0 && rigidbody2d.gravityScale < _maxGravityScale)
         {
             rigidbody2d.gravityScale *= _gravityMultiplier;
-            if(rigidbody2d.gravityScale >= _maxGravityScale)
+            _animator.SetFloat("VelocityY", -1);
+            if (rigidbody2d.gravityScale >= _maxGravityScale)
                 rigidbody2d.gravityScale = _maxGravityScale;
         }
         else
