@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 155524714583387367}
   - component: {fileID: 4858991450896743927}
   - component: {fileID: 5099589870585233178}
+  - component: {fileID: 3046193549844431953}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -204,6 +205,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.Animation, UnityEngine
+        m_MethodName: set_clip
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7400000, guid: dea376ce6d69f784391c7b5db38bffb3, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AnimationClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -326,8 +339,8 @@ MonoBehaviour:
   _dashStun: 0.5
   _minDashSpeed: 10
   _dashMultiplier: 0.75
-  _groundCheckPositionHeight: 1.05
-  _groundCheckSize: {x: 1.1, y: 0.05}
+  _groundCheckPositionHeight: 1.03
+  _groundCheckSize: {x: 0.98, y: 0.05}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -351,3 +364,25 @@ MonoBehaviour:
   _hp: 0
   _mpMax: 20
   _mp: 0
+--- !u!95 &3046193549844431953
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257095915014508992}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 144ac1c4a149e994d9b3e4705c16b41f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

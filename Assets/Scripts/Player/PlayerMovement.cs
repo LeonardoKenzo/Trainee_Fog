@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _stunnedTime = _hitStun;
-            _animator.SetBool("IsHurt", true);
+            _animator.Play("PlayerHurt", 0 , 0f);
             _isTakingDamage = true;
             rigidbody2d.linearVelocity = Vector2.zero;
             rigidbody2d.gravityScale = _normalGravityForce;
@@ -86,20 +86,17 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _isTakingDamage = false;
-            _animator.SetBool("IsHurt", false);
 
+            //animation
             if (GroundCheck() && _horizontalMovement != 0)
-                _animator.SetBool("IsMoving", true);
-            else
-                _animator.SetBool("IsMoving", false);
+                _animator.Play("PlayerRun");
+            else if(GroundCheck() && _horizontalMovement == 0)
+                _animator.Play("PlayerIdle");
 
             //moves the player
             rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
             rigidbody2d.linearDamping = 0f;
             GravityIncrease();
-
-            if (rigidbody2d.linearVelocityY > 0)
-                _animator.SetFloat("VelocityY", 1);
 
             //flip the sprite player
             if (_horizontalMovement > 0)
@@ -123,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+        if(_jumpsRemaining > 0)
+            _animator.Play("PlayerStartJump", 0, 0f);
         //if hold down the jump button = full jump force
         if (context.performed && _jumpsRemaining > 0 && !_isTakingDamage)
         {
@@ -166,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
         if(rigidbody2d.linearVelocityY < 0 && rigidbody2d.gravityScale < _maxGravityScale)
         {
             rigidbody2d.gravityScale *= _gravityMultiplier;
-            _animator.SetFloat("VelocityY", -1);
+            _animator.Play("PlayerEndJump");
             if (rigidbody2d.gravityScale >= _maxGravityScale)
                 rigidbody2d.gravityScale = _maxGravityScale;
         }
