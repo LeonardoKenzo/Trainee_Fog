@@ -10,8 +10,12 @@ public class DinoMovement : MonoBehaviour
 
     [Header("Edge of the Ground Check")]
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private Transform _checkPosition;
+    [SerializeField] private Transform _groundCheckTransform;
 
+    [Header("Wall Check")]
+    [SerializeField] private Transform _wallCheckTransform;
+    [SerializeField] private Vector3 _wallCheckSize;
+     
     [Header("Animation")]
     private Animator _animator;
 
@@ -41,9 +45,10 @@ public class DinoMovement : MonoBehaviour
             //moves the enemy
             _enemyRigidbody2d.linearVelocity = new Vector2(_direction * _speed, _enemyRigidbody2d.linearVelocityY);
 
-            //if the enemy is at the edge of the platform, flip the enemy
-            RaycastHit2D _groundCheck = Physics2D.Raycast(_checkPosition.position, Vector2.right, 1f, _groundLayer);
-            if(_groundCheck.collider == null)
+            //if the enemy is at the edge of the platform or collide with the wall, flip the enemy
+            bool _groundCheck = Physics2D.Raycast(_groundCheckTransform.position, Vector2.down, 1f, _groundLayer);
+            bool _wallCheck = Physics2D.OverlapBox(_wallCheckTransform.position, _wallCheckSize, 0f, _groundLayer);
+            if(!_groundCheck || _wallCheck)
                 TurnDirection();
         }
     }

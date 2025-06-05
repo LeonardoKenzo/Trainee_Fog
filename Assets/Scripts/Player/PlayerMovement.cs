@@ -88,9 +88,9 @@ public class PlayerMovement : MonoBehaviour
             _isTakingDamage = false;
 
             //animation
-            if (GroundCheck() && _horizontalMovement != 0)
+            if (rigidbody2d.linearVelocityY >= -0.5 && rigidbody2d.linearVelocityY <= 0.5 && _horizontalMovement != 0 && GroundCheck())
                 _animator.Play("PlayerRun");
-            else if(GroundCheck() && _horizontalMovement == 0)
+            else if(rigidbody2d.linearVelocityY >= -0.5 && rigidbody2d.linearVelocityY <= 0.5 && _horizontalMovement == 0 && GroundCheck())
                 _animator.Play("PlayerIdle");
 
             //moves the player
@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if(_jumpsRemaining > 0)
+        if(_jumpsRemaining > 0 && !_isTakingDamage)
             _animator.Play("PlayerStartJump", 0, 0f);
         //if hold down the jump button = full jump force
         if (context.performed && _jumpsRemaining > 0 && !_isTakingDamage)
@@ -165,7 +165,8 @@ public class PlayerMovement : MonoBehaviour
         if(rigidbody2d.linearVelocityY < 0 && rigidbody2d.gravityScale < _maxGravityScale)
         {
             rigidbody2d.gravityScale *= _gravityMultiplier;
-            _animator.Play("PlayerEndJump");
+            if(!GroundCheck())
+                _animator.Play("PlayerEndJump");
             if (rigidbody2d.gravityScale >= _maxGravityScale)
                 rigidbody2d.gravityScale = _maxGravityScale;
         }
