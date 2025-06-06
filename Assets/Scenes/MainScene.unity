@@ -1213,6 +1213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 71453801}
+  _animation: {fileID: 1908458361}
 --- !u!1 &457890880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,7 +1553,6 @@ GameObject:
   - component: {fileID: 596185083}
   - component: {fileID: 596185085}
   - component: {fileID: 596185084}
-  - component: {fileID: 596185086}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -1621,34 +1621,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596185082}
   m_CullTransparentMesh: 1
---- !u!114 &596185086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596185082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 999d6a0a15a92a64d9b2305aac8c2772, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _image: {fileID: 1908458359}
-  _sprites:
-  - {fileID: 21300000, guid: 86ca59b9bca0e409b9ba2784fbe69f01, type: 3}
-  - {fileID: 21300000, guid: 116ac2caa16ad4f73af4539f8b07d019, type: 3}
-  - {fileID: 21300000, guid: 662ace939438646e7a4067a89ec54b9e, type: 3}
-  - {fileID: 21300000, guid: b0305a6bb0adb4f66b864290967ea22b, type: 3}
-  - {fileID: 21300000, guid: 86ca59b9bca0e409b9ba2784fbe69f01, type: 3}
-  - {fileID: 21300000, guid: 116ac2caa16ad4f73af4539f8b07d019, type: 3}
-  - {fileID: 21300000, guid: 662ace939438646e7a4067a89ec54b9e, type: 3}
-  - {fileID: 21300000, guid: b0305a6bb0adb4f66b864290967ea22b, type: 3}
-  - {fileID: 21300000, guid: 86ca59b9bca0e409b9ba2784fbe69f01, type: 3}
-  - {fileID: 21300000, guid: 54bcabc188c6640f1a298f013d4716df, type: 3}
-  - {fileID: 21300000, guid: 54925aea4bcc94726afa87df59ae72f7, type: 3}
-  - {fileID: 21300000, guid: 54bcabc188c6640f1a298f013d4716df, type: 3}
-  - {fileID: 21300000, guid: 54925aea4bcc94726afa87df59ae72f7, type: 3}
-  _animationSpeed: 7
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -5887,6 +5859,7 @@ GameObject:
   - component: {fileID: 1908458358}
   - component: {fileID: 1908458360}
   - component: {fileID: 1908458359}
+  - component: {fileID: 1908458361}
   m_Layer: 5
   m_Name: FrogImage
   m_TagString: Untagged
@@ -5951,6 +5924,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908458357}
   m_CullTransparentMesh: 1
+--- !u!114 &1908458361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908458357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 999d6a0a15a92a64d9b2305aac8c2772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 1908458359}
+  _sprites:
+  - {fileID: 21300000, guid: 86ca59b9bca0e409b9ba2784fbe69f01, type: 3}
+  - {fileID: 21300000, guid: 116ac2caa16ad4f73af4539f8b07d019, type: 3}
+  - {fileID: 21300000, guid: 662ace939438646e7a4067a89ec54b9e, type: 3}
+  - {fileID: 21300000, guid: b0305a6bb0adb4f66b864290967ea22b, type: 3}
+  - {fileID: 21300000, guid: 86ca59b9bca0e409b9ba2784fbe69f01, type: 3}
+  - {fileID: 21300000, guid: 116ac2caa16ad4f73af4539f8b07d019, type: 3}
+  - {fileID: 21300000, guid: 662ace939438646e7a4067a89ec54b9e, type: 3}
+  - {fileID: 21300000, guid: b0305a6bb0adb4f66b864290967ea22b, type: 3}
+  - {fileID: 21300000, guid: 54bcabc188c6640f1a298f013d4716df, type: 3}
+  - {fileID: 21300000, guid: 54925aea4bcc94726afa87df59ae72f7, type: 3}
+  - {fileID: 21300000, guid: 54bcabc188c6640f1a298f013d4716df, type: 3}
+  - {fileID: 21300000, guid: 54925aea4bcc94726afa87df59ae72f7, type: 3}
+  - {fileID: 21300000, guid: 54bcabc188c6640f1a298f013d4716df, type: 3}
+  - {fileID: 21300000, guid: 54925aea4bcc94726afa87df59ae72f7, type: 3}
+  _animationSpeed: 7
 --- !u!1 &1923842940
 GameObject:
   m_ObjectHideFlags: 0

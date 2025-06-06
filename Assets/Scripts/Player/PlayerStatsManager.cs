@@ -5,37 +5,33 @@ public class PlayerStatsManager : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private int _hpMax = 10;
-    [SerializeField] private float _hp;
+    [SerializeField] private float _currentHp;
 
     [Header("Magic")]
     [SerializeField] private int _mpMax = 20;
-    [SerializeField] private float _mp;
+    [SerializeField] private float _currentMp;
 
     private void Start()
     {
-        _hp = _hpMax;
-        _mp = _mpMax;
+        _currentHp = _hpMax;
+        _currentMp = _mpMax;
     }
 
     private void Update()
     {
-        if (_hp <= 0)
+        if (_currentHp <= 0)
         {
             Die();
         }
     }
 
     //hp functions
-    public float GetHP() {  return _hp; }
-    public void SetHP(float _hp) {
-        if (_hp > _hpMax)
-            _hp = _hpMax;
-        else if (_hp < 0)
-            _hp = 0;
-        this._hp = _hp;
+    public float Hp
+    {
+        get { return _currentHp; }
     }
-    public void TakeDamage(int _damage) {_hp -= _damage; }
-    public void Heal(float _healPoints) { _hp += _healPoints; }
+    public void TakeDamage(int _damage) {_currentHp -= _damage; }
+    public void Heal(float _healPoints) { _currentHp += _healPoints; }
     public void Die()
     {
         //die animation;
@@ -44,14 +40,9 @@ public class PlayerStatsManager : MonoBehaviour
     }
 
     //mp functions
-    public float GetMP() { return _mp; }
-    public void SetMP(float _mp) {
-        if(_mp > _mpMax)
-            _mp = _mpMax;
-        else if(_mp < 0) 
-            _mp = 0;
-        this._mp = _mp; 
+    public float Mp { 
+        get { return _currentMp; }
     }
-    public void CastMagic(int _cost) { _mp -= _cost; }
-    public void RestoreMagic(int _restaureMp) { _mp += _restaureMp; }
+    public void CastMagic(int _cost) { _currentMp -= _cost; }
+    public void RestoreMagic(int _restaureMp) { _currentMp += _restaureMp; }
 }

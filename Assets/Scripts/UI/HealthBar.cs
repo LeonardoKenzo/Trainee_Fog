@@ -8,6 +8,6 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        _currentHpBar.fillAmount = (_playerHealth.GetHP() / 10);
+        _currentHpBar.fillAmount = (_playerHealth.Hp / 10);
     }
 }

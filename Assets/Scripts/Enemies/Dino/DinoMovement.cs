@@ -4,9 +4,9 @@ public class DinoMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private Rigidbody2D _enemyRigidbody2d;
-    [SerializeField] private float _speed = 1.75f;
+    [SerializeField] private float _speed;
     [SerializeField] private float _direction = -1f;
-    [SerializeField] private float _stunTime = 0f;
+    [SerializeField] private float _stunTime;
 
     [Header("Edge of the Ground Check")]
     [SerializeField] private LayerMask _groundLayer;
@@ -18,6 +18,7 @@ public class DinoMovement : MonoBehaviour
      
     [Header("Animation")]
     private Animator _animator;
+
 
     void Start()
     {
@@ -53,17 +54,22 @@ public class DinoMovement : MonoBehaviour
         }
     }
 
+    //allow the controller script acess and change these variables
+    public float StunTime
+    {
+        set { _stunTime = value; }
+    }
+
+    public float MoveSpeed
+    {
+        set { _speed = value; }
+    }
+
+
     //turn the direction of the enemy
     private void TurnDirection()
     {
         _direction *= -1;
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-    }
-
-    //when coliding with something
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-            _stunTime = 1f;
     }
 }
