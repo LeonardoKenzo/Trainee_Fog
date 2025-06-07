@@ -5,8 +5,9 @@ public class EnemiesStatsSO : ScriptableObject
 {
     [SerializeField] private float _currentHp;
     [SerializeField] private float _maxHp;
-    [SerializeField] private int _baseDamage;
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private int _baseDamage;
+    [SerializeField] private int _pointsValue;
 
     //Getters for each variable
     public float CurrentHp {
@@ -21,4 +22,5 @@ public class EnemiesStatsSO : ScriptableObject
     public float MoveSpeed { 
         get { return _moveSpeed; }
     }
+    public int PointsValue => _pointsValue;
 }

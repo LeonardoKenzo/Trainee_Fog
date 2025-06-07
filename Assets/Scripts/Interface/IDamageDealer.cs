@@ -2,5 +2,7 @@ using UnityEngine;
 
 public interface IDamageDealer
 {
-    int GetDamage(); 
+    int GetDamage();
+
+    void TakeDamage(float damage);
 }

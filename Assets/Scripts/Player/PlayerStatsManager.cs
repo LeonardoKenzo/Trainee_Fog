@@ -11,13 +11,17 @@ public class PlayerStatsManager : MonoBehaviour
     [SerializeField] private int _mpMax = 20;
     [SerializeField] private float _currentMp;
 
+    [Header("Damage")]
+    [SerializeField] private float _damage = 2f;
+    public float Damage => _damage;
+
     private void Start()
     {
         _currentHp = _hpMax;
         _currentMp = _mpMax;
     }
 
-    //hp functions
+    //hp functions ----------------------------------------
     public float Hp
     {
         get { return _currentHp; }
@@ -37,7 +41,7 @@ public class PlayerStatsManager : MonoBehaviour
         Debug.Log("Você morreu!");//temporary
     }
 
-    //mp functions
+    //mp functions -----------------------------------------
     public float Mp { 
         get { return _currentMp; }
         set { _currentMp = Mathf.Clamp(value, 0, _mpMax); }

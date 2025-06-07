@@ -23,7 +23,7 @@ public class PointsCounter : MonoBehaviour
 
     private void UpdateUI(int points)
     {
-        _pointText.text = points.ToString();
+        _pointText.text = (points == 0)? "00": points.ToString();
     }
 
     private void OnDestroy()

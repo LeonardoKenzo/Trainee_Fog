@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6873fea7e390aae489cc024a58425322, type: 3}
   m_Name: Eagle
   m_EditorClassIdentifier: 
-  _currentHp: 2
-  _maxHp: 2
-  _baseDamage: 2
+  _currentHp: 3
+  _maxHp: 3
   _moveSpeed: 1.5
+  _baseDamage: 2
+  _pointsValue: 20

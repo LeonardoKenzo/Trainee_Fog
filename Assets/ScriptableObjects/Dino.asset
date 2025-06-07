@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Dino
   m_EditorClassIdentifier: 
   _currentHp: 5
-  _currentMp: 0
   _maxHp: 5
-  _maxMp: 0
-  _baseDamage: 1
   _moveSpeed: 1.75
+  _baseDamage: 1
+  _pointsValue: 10

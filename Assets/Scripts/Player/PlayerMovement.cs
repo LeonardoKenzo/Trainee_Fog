@@ -38,8 +38,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Stun")]
     [SerializeField] private float _hitStun = 1f;
-    private bool _isTakingDamage;
     private float _stunnedTime = 0f;
+    private bool _isTakingDamage;
+    public bool IsTakingDamage => _isTakingDamage;
 
     [Header("Animation")]
     private Animator _animator;
@@ -51,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
         _animator = _playerController.Animator;
     }
 
+    // Reduce the processing time
     private void FixedUpdate()
     {
         //make the ground check
@@ -104,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Input Actions -----------------------------------------------------
     public void Move(InputAction.CallbackContext context)
     {
         _horizontalMovement = context.ReadValue<Vector2>().x;
@@ -141,7 +144,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //function to check if the player is touching the ground
+
+    // Functions -------------------------------------------------------
     private bool GroundCheck()
     {
         if (_groundCheck)
@@ -150,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
             return false;
     }
 
-    //increases the fall of the player
+    // makes the falling time more real
     private void GravityIncrease()
     {
         if(_rigidbody2d.linearVelocityY < 0 && _rigidbody2d.gravityScale < _maxGravityScale)
@@ -167,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //makes the dash smoother
+    // makes the dash smoother
     private void DashNormalize(int direction)
     {
         if (_rigidbody2d.linearVelocityX != 0 && Math.Abs(_rigidbody2d.linearVelocityX) > Math.Abs(_minDashSpeed) && _isDashing)
@@ -188,5 +192,10 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody2d.linearVelocity = Vector2.zero;
         _rigidbody2d.gravityScale = _normalGravityForce;
         _rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 4f, 0f), ForceMode2D.Impulse);
+    }
+
+    public void JumpAttack()
+    {
+        _rigidbody2d.linearVelocity = new Vector2(_rigidbody2d.linearVelocity.x, _jumpForce);
     }
 }

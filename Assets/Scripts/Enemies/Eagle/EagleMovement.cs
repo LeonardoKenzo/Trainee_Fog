@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EagleMovement : MonoBehaviour
@@ -5,20 +6,19 @@ public class EagleMovement : MonoBehaviour
     private EagleController _controller;
 
     [Header("Movement")]
-    [SerializeField] private float _moveSpeed;
-    private Rigidbody2D _rigidbody2d;
-
+    private Vector3 _moveSpeed; //calculated by SmoothDamp
     
-    void Start()
+    private void Start()
     {
         _controller = GetComponent<EagleController>();
-
-        //Initialize the references
-        _rigidbody2d = _controller.Rigidbody2D;
     }
 
-    void Update()
+    public void FollowPlayer(GameObject _player)
     {
-        
+        if(_player != null)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_player.transform.position.x, _player.transform.position.y + 1f, _player.transform.position.z), ref _moveSpeed, 1.5f);
+            transform.localScale = new Vector3((transform.position.x > _player.transform.position.x)? 1: -1, 1, 1);
+        }
     }
 }

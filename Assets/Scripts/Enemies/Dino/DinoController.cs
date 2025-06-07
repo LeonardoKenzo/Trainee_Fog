@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class DinoController : MonoBehaviour, IDamageDealer
@@ -40,8 +42,30 @@ public class DinoController : MonoBehaviour, IDamageDealer
     public void TakeDamage(float _damage)
     {
         _stats.CurrentHP -= _damage;
+        _dinoMovement.StunTime = 1f;
+        StartCoroutine(BlinkDamage());
+        //Die and add Points
         if (_stats.CurrentHP <= 0f)
+        {
+            PointsManager.Instance.AddPoints(_stats.PointsValue);
             Destroy(this.gameObject);
+        }
+    }
+
+    private IEnumerator BlinkDamage()
+    {
+        float _elapsed = 0f;
+        float _blinkInterval = 0.1f;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        while (_elapsed < 0.5f)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(_blinkInterval);
+            _elapsed += _blinkInterval;
+        }
+
+        spriteRenderer.enabled = true;
     }
 
     public int GetDamage()

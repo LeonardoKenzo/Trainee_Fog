@@ -6,8 +6,9 @@ public class EnemiesRuntimeStats
 {
     [SerializeField] private float _maxHp;
     [SerializeField] private float _currentHp;
-    [SerializeField] private int _baseDamage;
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private int _baseDamage;
+    [SerializeField] private int _pointsValue;
 
     public float CurrentHP
     {
@@ -16,11 +17,7 @@ public class EnemiesRuntimeStats
     }
     public int BaseDamage => _baseDamage;
     public float MoveSpeed => _moveSpeed;
-
-    public void TakeDamage(float damage)
-    {
-        CurrentHP -= damage;
-    }
+    public int PointsValue => _pointsValue;
 
     public EnemiesRuntimeStats(EnemiesStatsSO _enemiesStatsSo)
     {
@@ -28,6 +25,7 @@ public class EnemiesRuntimeStats
         _maxHp = _enemiesStatsSo.MaxHp;
         _baseDamage = _enemiesStatsSo.BaseDamage;
         _moveSpeed = _enemiesStatsSo.MoveSpeed;
+        _pointsValue = _enemiesStatsSo.PointsValue;
     }
 
 }

@@ -20,7 +20,7 @@ public class DinoMovement : MonoBehaviour
     [SerializeField] private Vector3 _wallCheckSize;
     private bool _wallCheck;
      
-    // Animation ----------------
+    // Animation ---------------------------------------
     private Animator _animator;
 
 
