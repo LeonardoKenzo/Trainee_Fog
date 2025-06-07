@@ -17,21 +17,19 @@ public class PlayerStatsManager : MonoBehaviour
         _currentMp = _mpMax;
     }
 
-    private void Update()
-    {
-        if (_currentHp <= 0)
-        {
-            Die();
-        }
-    }
-
     //hp functions
     public float Hp
     {
         get { return _currentHp; }
+        set { 
+            _currentHp = Mathf.Clamp(value, 0, _hpMax);
+
+            if (_currentHp <= 0)
+                Die();
+        }
     }
-    public void TakeDamage(int _damage) {_currentHp -= _damage; }
-    public void Heal(float _healPoints) { _currentHp += _healPoints; }
+    public void TakeDamage(int _damage) {Hp -= _damage; }
+    public void Heal(float _healPoints) { Hp += _healPoints; }
     public void Die()
     {
         //die animation;
@@ -42,7 +40,8 @@ public class PlayerStatsManager : MonoBehaviour
     //mp functions
     public float Mp { 
         get { return _currentMp; }
+        set { _currentMp = Mathf.Clamp(value, 0, _mpMax); }
     }
-    public void CastMagic(int _cost) { _currentMp -= _cost; }
-    public void RestoreMagic(int _restaureMp) { _currentMp += _restaureMp; }
+    public void CastMagic(int _cost) { Mp -= _cost; }
+    public void RestoreMagic(int _restaureMp) { Mp += _restaureMp; }
 }

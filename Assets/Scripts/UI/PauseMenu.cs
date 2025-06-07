@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private ImageCanvasAnimations _animation;
 
     private void Update()
     {

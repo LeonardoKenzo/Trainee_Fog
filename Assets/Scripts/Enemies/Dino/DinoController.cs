@@ -1,18 +1,26 @@
 using UnityEngine;
 
-public class DinoController : MonoBehaviour
+public class DinoController : MonoBehaviour, IDamageDealer
 {
-    [Header("Enemy Stats")]
+    [Header("Dino Stats")]
     [SerializeField] private EnemiesRuntimeStats _stats;
     [SerializeField] private EnemiesStatsSO _baseStats;
 
-    [Header("Enemy Movement")]
+    // Movement------------------
     private DinoMovement _dinoMovement;
 
-    void Start()
+    // References ---------------
+    public Rigidbody2D Rigidbody2D { get; private set; }
+    public Animator Animator { get; private set; }
+
+    private void Awake()
     {
         //initialize the dino stats
         _stats = new EnemiesRuntimeStats(_baseStats);
+
+        //initialize the references
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
 
         //initialize the child scripts
         _dinoMovement = GetComponent<DinoMovement>();
@@ -34,5 +42,10 @@ public class DinoController : MonoBehaviour
         _stats.CurrentHP -= _damage;
         if (_stats.CurrentHP <= 0f)
             Destroy(this.gameObject);
+    }
+
+    public int GetDamage()
+    {
+        return _stats.BaseDamage;
     }
 }

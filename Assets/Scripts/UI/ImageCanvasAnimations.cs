@@ -8,22 +8,39 @@ public class ImageCanvasAnimations : MonoBehaviour
     [SerializeField] private Sprite[] _sprites;
     [SerializeField] private float _animationSpeed = 1f;
 
-    public void StartAnimation()
+    private Coroutine _animationCoroutine;
+
+    private void OnEnable()
     {
-        StartCoroutine(Animation());
+        _animationCoroutine = StartCoroutine(Animation());
     }
+
     private IEnumerator Animation()
     {
-        int currentFrame = 0;
+        int _currentFrame = 0;
+        float _timer = 0f;
+        float _frameDuration = 1f / _animationSpeed;
+
         while (true)
         {
-            _image.sprite = _sprites[currentFrame];
-            currentFrame = (currentFrame + 1) % _sprites.Length;
-            yield return new WaitForSeconds(1f / _animationSpeed);
+            //the animation plays even if time.timeScale = 0
+            _timer += Time.unscaledDeltaTime;
+
+            if (_timer >= _frameDuration)
+            {
+                _timer -= _frameDuration;
+                _image.sprite = _sprites[_currentFrame];
+                _currentFrame = (_currentFrame + 1) % _sprites.Length;
+            }
+
+            //Wait for the next frame
+            yield return null;
         }
     }
-    public void StopAnimation()
+
+    private void OnDisable()
     {
-        StopCoroutine(Animation());
+        if(_animationCoroutine != null)
+            StopCoroutine(Animation());
     }
 }

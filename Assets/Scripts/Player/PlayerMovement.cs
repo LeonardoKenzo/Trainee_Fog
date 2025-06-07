@@ -6,8 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private PlayerController _playerController;
+
     [Header("Horizontal Movement")]
-    [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private Rigidbody2D _rigidbody2d;
     [SerializeField] private float _moveSpeed = 7f;
     private float _horizontalMovement;
 
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _groundCheckPositionHeight;
     [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.5f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
+    private bool _groundCheck;
 
     [Header("Gravity")]
     [SerializeField] private float _gravityMultiplier = 2f;
@@ -38,32 +41,20 @@ public class PlayerMovement : MonoBehaviour
     private bool _isTakingDamage;
     private float _stunnedTime = 0f;
 
-    [Header("Stats")]
-    [SerializeField] private PlayerStatsManager _statsManager;
-
     [Header("Animation")]
     private Animator _animator;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //the player is stunned and pushed back
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            _stunnedTime = _hitStun;
-            _animator.Play("PlayerHurt", 0 , 0f);
-            _isTakingDamage = true;
-            rigidbody2d.linearVelocity = Vector2.zero;
-            rigidbody2d.gravityScale = _normalGravityForce;
-            rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 4f, 0f), ForceMode2D.Impulse);
-            _statsManager.TakeDamage(1);
-        }
-    }
-
     private void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();  
-        _statsManager = GetComponent<PlayerStatsManager>();
-        _animator = GetComponent<Animator>();
+        _playerController = GetComponent<PlayerController>();
+        _rigidbody2d = _playerController.Rigidbody2D;
+        _animator = _playerController.Animator;
+    }
+
+    private void FixedUpdate()
+    {
+        //make the ground check
+        _groundCheck = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize, 0, _groundLayer);
     }
 
     void Update()
@@ -73,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //the player is stopped by friction with the floor
             if (GroundCheck() && !_isDashing)
-                rigidbody2d.linearDamping = 3f;
+                _rigidbody2d.linearDamping = 3f;
 
             //Makes the dash smoother and priorize the enemy hit interaction
             if (!_isTakingDamage)
@@ -88,14 +79,14 @@ public class PlayerMovement : MonoBehaviour
             _isTakingDamage = false;
 
             //animation
-            if (rigidbody2d.linearVelocityY >= -0.5 && rigidbody2d.linearVelocityY <= 0.5 && _horizontalMovement != 0 && GroundCheck())
+            if (_rigidbody2d.linearVelocityY >= -0.5 && _rigidbody2d.linearVelocityY <= 0.5 && _horizontalMovement != 0 && GroundCheck())
                 _animator.Play("PlayerRun");
-            else if(rigidbody2d.linearVelocityY >= -0.5 && rigidbody2d.linearVelocityY <= 0.5 && _horizontalMovement == 0 && GroundCheck())
+            else if(_rigidbody2d.linearVelocityY >= -0.5 && _rigidbody2d.linearVelocityY <= 0.5 && _horizontalMovement == 0 && GroundCheck())
                 _animator.Play("PlayerIdle");
 
             //moves the player
-            rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, rigidbody2d.linearVelocityY);
-            rigidbody2d.linearDamping = 0f;
+            _rigidbody2d.linearVelocity = new Vector2(_horizontalMovement * _moveSpeed, _rigidbody2d.linearVelocityY);
+            _rigidbody2d.linearDamping = 0f;
             GravityIncrease();
 
             //flip the sprite player
@@ -104,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
             else if (_horizontalMovement < 0)
                 transform.localScale = new Vector2(-1f, transform.localScale.y);
 
-            //check if player is on the ground and reset jumps adn dash if is
+            //check if player is on the ground and reset jumps and dash if is
             if (GroundCheck())
             {
                 _jumpsRemaining = _totalJumps;
@@ -125,13 +116,13 @@ public class PlayerMovement : MonoBehaviour
         //if hold down the jump button = full jump force
         if (context.performed && _jumpsRemaining > 0 && !_isTakingDamage)
         {
-            rigidbody2d.linearVelocityY = _jumpForce;
+            _rigidbody2d.linearVelocityY = _jumpForce;
             _jumpsRemaining--;
         }
         //if light tap the jump button = half the jump
         else if (context.canceled && _jumpsRemaining  > 0 && !_isTakingDamage)
         {
-            rigidbody2d.linearVelocityY = rigidbody2d.linearVelocityY * 0.5f;
+            _rigidbody2d.linearVelocityY = _rigidbody2d.linearVelocityY * 0.5f;
             _jumpsRemaining--;
         }
     }
@@ -143,8 +134,8 @@ public class PlayerMovement : MonoBehaviour
         if(context.performed && !_isDashing && !_isTakingDamage)
         {
             _stunnedTime = _dashStun;
-            rigidbody2d.gravityScale = 0;
-            rigidbody2d.linearVelocity = new Vector2(transform.localScale.x * _dashSpeed, 0f);
+            _rigidbody2d.gravityScale = 0;
+            _rigidbody2d.linearVelocity = new Vector2(transform.localScale.x * _dashSpeed, 0f);
             _isDashing = true;
             _animator.Play("PlayerStartJump", 0, 0f);
         }
@@ -153,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
     //function to check if the player is touching the ground
     private bool GroundCheck()
     {
-        if (Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize, 0, _groundLayer))
+        if (_groundCheck)
             return true;
         else
             return false;
@@ -162,37 +153,40 @@ public class PlayerMovement : MonoBehaviour
     //increases the fall of the player
     private void GravityIncrease()
     {
-        if(rigidbody2d.linearVelocityY < 0 && rigidbody2d.gravityScale < _maxGravityScale)
+        if(_rigidbody2d.linearVelocityY < 0 && _rigidbody2d.gravityScale < _maxGravityScale)
         {
-            rigidbody2d.gravityScale *= _gravityMultiplier;
+            _rigidbody2d.gravityScale *= _gravityMultiplier;
             if(!GroundCheck())
                 _animator.Play("PlayerEndJump");
-            if (rigidbody2d.gravityScale >= _maxGravityScale)
-                rigidbody2d.gravityScale = _maxGravityScale;
+            if (_rigidbody2d.gravityScale >= _maxGravityScale)
+                _rigidbody2d.gravityScale = _maxGravityScale;
         }
         else
         {
-            rigidbody2d.gravityScale = _normalGravityForce;
+            _rigidbody2d.gravityScale = _normalGravityForce;
         }
     }
 
     //makes the dash smoother
     private void DashNormalize(int direction)
     {
-        if (rigidbody2d.linearVelocityX != 0 && Math.Abs(rigidbody2d.linearVelocityX) > Math.Abs(_minDashSpeed) && _isDashing)
+        if (_rigidbody2d.linearVelocityX != 0 && Math.Abs(_rigidbody2d.linearVelocityX) > Math.Abs(_minDashSpeed) && _isDashing)
         {
-            rigidbody2d.linearVelocityX *= _dashMultiplier;
-            if (Math.Abs(rigidbody2d.linearVelocityX) <= Math.Abs(_minDashSpeed))
-                rigidbody2d.linearVelocityX = _minDashSpeed * direction;
+            _rigidbody2d.linearVelocityX *= _dashMultiplier;
+            if (Math.Abs(_rigidbody2d.linearVelocityX) <= Math.Abs(_minDashSpeed))
+                _rigidbody2d.linearVelocityX = _minDashSpeed * direction;
         }
         else
-            rigidbody2d.linearVelocityX = _minDashSpeed * direction;
+            _rigidbody2d.linearVelocityX = _minDashSpeed * direction;
     }
 
-    //draw a gizmo in scene to check if the player is touching the ground
-    private void OnDrawGizmosSelected()
+    public void EnemyHit(Collision2D collision)
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize);
+        _stunnedTime = _hitStun;
+        _animator.Play("PlayerHurt", 0, 0f);
+        _isTakingDamage = true;
+        _rigidbody2d.linearVelocity = Vector2.zero;
+        _rigidbody2d.gravityScale = _normalGravityForce;
+        _rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 4f, 0f), ForceMode2D.Impulse);
     }
 }

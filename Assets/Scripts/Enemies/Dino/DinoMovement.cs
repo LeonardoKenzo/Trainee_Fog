@@ -2,28 +2,41 @@ using UnityEngine;
 
 public class DinoMovement : MonoBehaviour
 {
+    private DinoController controller;
+
     [Header("Movement")]
-    [SerializeField] private Rigidbody2D _enemyRigidbody2d;
     [SerializeField] private float _speed;
     [SerializeField] private float _direction = -1f;
     [SerializeField] private float _stunTime;
+    private Rigidbody2D _enemyRigidbody2d;
 
     [Header("Edge of the Ground Check")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Transform _groundCheckTransform;
+    private bool _groundCheck;
 
     [Header("Wall Check")]
     [SerializeField] private Transform _wallCheckTransform;
     [SerializeField] private Vector3 _wallCheckSize;
+    private bool _wallCheck;
      
-    [Header("Animation")]
+    // Animation ----------------
     private Animator _animator;
 
 
     void Start()
     {
-        _enemyRigidbody2d = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
+        controller = GetComponent<DinoController>();
+
+        //Initialize the references
+        _enemyRigidbody2d = controller.Rigidbody2D;
+        _animator = controller.Animator;
+    }
+
+    private void FixedUpdate()
+    {
+        _groundCheck = Physics2D.Raycast(_groundCheckTransform.position, Vector2.down, 1f, _groundLayer);
+        _wallCheck = Physics2D.OverlapBox(_wallCheckTransform.position, _wallCheckSize, 0f, _groundLayer);
     }
 
     void Update()
@@ -47,8 +60,6 @@ public class DinoMovement : MonoBehaviour
             _enemyRigidbody2d.linearVelocity = new Vector2(_direction * _speed, _enemyRigidbody2d.linearVelocityY);
 
             //if the enemy is at the edge of the platform or collide with the wall, flip the enemy
-            bool _groundCheck = Physics2D.Raycast(_groundCheckTransform.position, Vector2.down, 1f, _groundLayer);
-            bool _wallCheck = Physics2D.OverlapBox(_wallCheckTransform.position, _wallCheckSize, 0f, _groundLayer);
             if(!_groundCheck || _wallCheck)
                 TurnDirection();
         }
