@@ -115,7 +115,9 @@ public class PlayerMovement : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         if(_jumpsRemaining > 0 && !_isTakingDamage)
+        {
             _animator.Play("PlayerStartJump", 0, 0f);
+        }
         //if hold down the jump button = full jump force
         if (context.performed && _jumpsRemaining > 0 && !_isTakingDamage)
         {

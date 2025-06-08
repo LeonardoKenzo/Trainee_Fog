@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour
     private bool _isInvulnerable = false;
 
     // Scripts -----------------------------------------
-    private PlayerStatsManager _playerStats;
     private PlayerMovement _playerMovement;
+    private PlayerStatsManager _playerStats;
 
     // References --------------------------------------
     public Animator Animator {  get; private set; }
     public Rigidbody2D Rigidbody2D { get; private set; }
+    [SerializeField] private GameObject _winpanel;
 
     private void Awake()
     {
@@ -50,6 +51,11 @@ public class PlayerController : MonoBehaviour
         {
             collision.gameObject.GetComponentInParent<IDamageDealer>().TakeDamage(2f);
             _playerMovement.JumpAttack();
+        }
+        else if (collision.gameObject.CompareTag("Win"))
+        {
+            Time.timeScale = 0f;
+            _winpanel.SetActive(true);
         }
     }
 

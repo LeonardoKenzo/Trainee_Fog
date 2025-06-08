@@ -27,14 +27,6 @@ public class EagleController : MonoBehaviour,IDamageDealer
             _isFollowing = true;
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            _player = null;
-            _isFollowing = false;
-        }
-    }
 
     void Awake()
     {

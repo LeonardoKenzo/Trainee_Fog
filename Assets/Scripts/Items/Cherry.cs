@@ -12,7 +12,7 @@ public class Cherry : MonoBehaviour
         {
             PlayerStatsManager _playerStats = collision.GetComponent<PlayerStatsManager>();
             _playerStats.Heal(_healAmount);
-            Instantiate(_collectAnim, transform);
+            Instantiate(_collectAnim, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

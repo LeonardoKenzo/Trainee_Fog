@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class PauseMenu : MonoBehaviour
     {
         _pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void RestartButton()
+    {
+        Time.timeScale = 1f;
+        MusicManager.PlayMusic(false);
+        SceneManager.LoadScene(1);
     }
 
     public void Pause()

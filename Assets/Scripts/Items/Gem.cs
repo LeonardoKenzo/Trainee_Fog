@@ -11,7 +11,7 @@ public class Gem : MonoBehaviour
         {
             PointsManager.Instance.AddPoints(_pointsValue);
 
-            Instantiate(_collectAnim, transform);
+            Instantiate(_collectAnim, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

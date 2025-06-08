@@ -1,24 +1,31 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStatsManager : MonoBehaviour
 {
+    private static PlayerStatsManager instance;
+
     [Header("Health")]
     [SerializeField] private int _hpMax = 10;
     [SerializeField] private float _currentHp;
-
-    [Header("Magic")]
-    [SerializeField] private int _mpMax = 20;
-    [SerializeField] private float _currentMp;
 
     [Header("Damage")]
     [SerializeField] private float _damage = 2f;
     public float Damage => _damage;
 
+    [Header("Death")]
+    [SerializeField] private GameObject _deathPanel;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
+
     private void Start()
     {
         _currentHp = _hpMax;
-        _currentMp = _mpMax;
     }
 
     //hp functions ----------------------------------------
@@ -38,14 +45,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         //die animation;
         Time.timeScale = 0;
-        Debug.Log("Você morreu!");//temporary
+        MusicManager.PauseMusic();
+        _deathPanel.SetActive(true);
     }
-
-    //mp functions -----------------------------------------
-    public float Mp { 
-        get { return _currentMp; }
-        set { _currentMp = Mathf.Clamp(value, 0, _mpMax); }
-    }
-    public void CastMagic(int _cost) { Mp -= _cost; }
-    public void RestoreMagic(int _restaureMp) { Mp += _restaureMp; }
 }

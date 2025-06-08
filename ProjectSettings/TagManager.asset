@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Items
   - EnemyHead
+  - Win
   layers:
   - Default
   - TransparentFX
