@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     [SerializeField] private float _groundCheckPositionHeight;
     [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.5f, 0.05f);
-    [SerializeField] private LayerMask _groundLayer;
+    private LayerMask _groundLayer;
     private bool _groundCheck;
 
     [Header("Gravity")]
@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
         _rigidbody2d = _playerController.Rigidbody2D;
         _animator = _playerController.Animator;
+        _groundLayer = LayerMask.GetMask("Ground", "Platform");
     }
 
     // Reduce the processing time
@@ -132,7 +133,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //Dash Function
     public void Dash(InputAction.CallbackContext context)
     {
         //if the player is not dashing and is not taking damage, can dash
@@ -196,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody2d.AddForce(new Vector2((collision.gameObject.transform.position.x > transform.position.x ? -1 : 1) * 4f, 0f), ForceMode2D.Impulse);
     }
 
+    //if jump in enemy head, jump again
     public void JumpAttack()
     {
         _rigidbody2d.linearVelocity = new Vector2(_rigidbody2d.linearVelocity.x, _jumpForce);

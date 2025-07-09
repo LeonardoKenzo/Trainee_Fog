@@ -11,12 +11,11 @@ public class MusicManager : MonoBehaviour
 
     void Awake()
     {
-        //guarantee that it is the unique Music Manager in the Scene
+        //Guarantee that it is the unique Music Manager in the Scene
         if(instance == null)
         {
             instance = this;
             _audioSource = GetComponent<AudioSource>();
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -30,9 +29,10 @@ public class MusicManager : MonoBehaviour
         {
             PlayMusic(false, _music);
         }
-
         _slider.onValueChanged.AddListener(delegate { SetVolume(_slider.value); });
     }
+
+    // Functions -------------------------------------------------------------
 
     public static void SetVolume(float volume)
     {

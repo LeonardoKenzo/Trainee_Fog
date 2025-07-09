@@ -1725,7 +1725,7 @@ GameObject:
   - component: {fileID: 1184319538}
   m_Layer: 5
   m_Name: MusicSlider
-  m_TagString: Untagged
+  m_TagString: Volume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

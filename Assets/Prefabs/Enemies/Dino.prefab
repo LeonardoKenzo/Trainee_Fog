@@ -332,9 +332,6 @@ MonoBehaviour:
   _speed: 1.75
   _direction: 1
   _stunTime: 0
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _groundCheckTransform: {fileID: 2438430147404860786}
   _wallCheckTransform: {fileID: 3850070736037878447}
   _wallCheckSize: {x: 0.06, y: 1.34, z: 0}
@@ -372,10 +369,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b16463cb15d354abbcf7abb74886da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats:
-    _maxHp: 0
-    _currentHp: 0
-    _moveSpeed: 0
-    _baseDamage: 0
-    _pointsValue: 0
-  _baseStats: {fileID: 11400000, guid: ab2cc8f5e6bf4a54aa9fc5799a2df2a3, type: 2}
+  _deathObject: {fileID: 2728273155367265763, guid: 965a9e65551f4884081dd90e5789f2cd, type: 3}
+  _statsSO: {fileID: 11400000, guid: ab2cc8f5e6bf4a54aa9fc5799a2df2a3, type: 2}

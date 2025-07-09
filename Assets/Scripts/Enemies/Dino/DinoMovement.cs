@@ -11,8 +11,8 @@ public class DinoMovement : MonoBehaviour
     private Rigidbody2D _enemyRigidbody2d;
 
     [Header("Edge of the Ground Check")]
-    [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Transform _groundCheckTransform;
+    private LayerMask _groundLayer;
     private bool _groundCheck;
 
     [Header("Wall Check")]
@@ -27,6 +27,7 @@ public class DinoMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<DinoController>();
+        _groundLayer = LayerMask.GetMask("Ground", "Platform");
 
         //Initialize the references
         _enemyRigidbody2d = controller.Rigidbody2D;

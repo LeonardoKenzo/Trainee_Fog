@@ -1,11 +1,19 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class EagleController : MonoBehaviour,IDamageDealer
+public class EagleController : BaseEnemy
 {
-    [Header("Eagle Stats")]
-    [SerializeField] private EnemiesStatsSO _statsSO;
-    [SerializeField] private EnemiesRuntimeStats _stats;
+    /*
+     *  Inherited from BaseEnemy:
+     *  - [SerializeField] GameObject _deathObject;
+     *  - [SerializeField] EnemiesStatsSO _statsSO;
+     *  - EnemiesRuntimeStats _stats;
+     *  
+     *  - public void TakeDamage(float damage);
+     *  - public int GetDamage();
+     *  - public void KillEnemy()
+     */
 
     // Variables ----------------------------------------
     private GameObject _player;
@@ -17,16 +25,8 @@ public class EagleController : MonoBehaviour,IDamageDealer
     // References ---------------------------------------
     public Rigidbody2D Rigidbody2D { get; private set; }
 
-
-    // Follow the player if it enters in the follow zone
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            _player = collision.gameObject;
-            _isFollowing = true;
-        }
-    }
+    [Header("Eagle Triggers")]
+    [SerializeField] private MultipleTriggers _followTrigger;
 
     void Awake()
     {
@@ -36,6 +36,14 @@ public class EagleController : MonoBehaviour,IDamageDealer
         _movement = GetComponent<EagleMovement>();
 
         Rigidbody2D = GetComponent<Rigidbody2D>();
+
+        //Set events on Trigger
+        if(_followTrigger == null)
+        {
+            _followTrigger = GetComponentInChildren<MultipleTriggers>();
+        }
+        _followTrigger.EnteredTrigger += OnFollowTriggerEnter;
+        _followTrigger.ExitedTrigger += OnFollowTriggerExit;
     }
 
     private void Update()
@@ -46,38 +54,81 @@ public class EagleController : MonoBehaviour,IDamageDealer
         }
     }
 
-    // Functions -------------------------------------
-    public void TakeDamage(float damage)
-    {
-        _stats.CurrentHP -= damage;
-        StartCoroutine(BlinkDamage());
-        //Die and add Points
-        if (_stats.CurrentHP <= 0)
-        {
-            PointsManager.Instance.AddPoints(_stats.PointsValue);
-            Destroy(gameObject);
-        }
-    }
+    // Functions and Coroutines ------------------------------
 
+    //Add blink effect when receive damage
     private IEnumerator BlinkDamage()
     {
         float _elapsed = 0f;
         float _blinkInterval = 0.1f;
+        bool _isTransparent = true;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        _isFollowing = false;
 
         while (_elapsed < 0.5f)
         {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            Color transparence = spriteRenderer.color;
+
+            if (_isTransparent)
+            {
+                //Turns Invisible
+                transparence.a = 0f;
+                spriteRenderer.color = transparence;
+                _isTransparent = false;
+            }
+            else if (!_isTransparent)
+            {
+                //Turns Visible
+                transparence.a = 1f;
+                spriteRenderer.color = transparence;
+                _isTransparent = true;
+            }
+
             yield return new WaitForSeconds(_blinkInterval);
+
             _elapsed += _blinkInterval;
         }
 
-        spriteRenderer.enabled = true;
+        //Guarantee the visibility of sprite 
+        Color finalColor = spriteRenderer.color;
+        finalColor.a = 1f;
+        spriteRenderer.color = finalColor;
+        _isTransparent = false;
+
+        _isFollowing = true;
     }
 
-    public int GetDamage()
+    private IEnumerator StopFollowPlayer(float delay)
     {
-        return _stats.BaseDamage;
+        yield return new WaitForSeconds(delay);
+        _player = null;
+        _isFollowing = false;
     }
 
+    // OnTriggerEnter and OnTriggerExit------------------------------
+    private void OnFollowTriggerEnter(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player")){
+            if (!_isFollowing)
+            {
+                _player = collision.gameObject;
+                _isFollowing = true;
+            }
+        }
+    }
+    private void OnFollowTriggerExit(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(StopFollowPlayer(2f));
+        }
+    }
+
+    // BaseEnemy Functions ---------------------------------------
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        StartCoroutine(BlinkDamage());
+    }
 }

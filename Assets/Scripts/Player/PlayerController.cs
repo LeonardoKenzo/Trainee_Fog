@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        //initialize the references
+        //Initialize the references
         _playerMovement = GetComponent<PlayerMovement>();
         _playerStats = GetComponent<PlayerStatsManager>();
 
@@ -28,17 +28,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Collide with an Enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
             if (_isInvulnerable) { return; }
 
+            //Enemy damage the player 
             _playerMovement.EnemyHit(collision);
             int damage = collision.gameObject.GetComponent<IDamageDealer>().GetDamage();
 
             _playerStats.TakeDamage(damage);
 
+            //Become invulnerable for a short period of time
             StartCoroutine(Invulnerability());
         } 
+        //Falls of the map
         else if (collision.gameObject.CompareTag("Respawn"))
         {
             _playerStats.Die();
@@ -47,24 +51,29 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Jump in the enemy head
         if (collision.CompareTag("EnemyHead"))
         {
-            collision.gameObject.GetComponentInParent<IDamageDealer>().TakeDamage(2f);
+            //Do damage in enemy
+            collision.gameObject.GetComponentInParent<IDamageDealer>().TakeDamage(_playerStats.Damage);
             _playerMovement.JumpAttack();
         }
+
+        //Complete the level
         else if (collision.gameObject.CompareTag("Win"))
         {
             Time.timeScale = 0f;
             _winpanel.SetActive(true);
         }
     }
+    // Functions and Coroutines --------------------------------------
 
-    // cant take damage
+    //Can't take damage
     private  IEnumerator Invulnerability()
     {
         _isInvulnerable = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         _isInvulnerable = false;
     }

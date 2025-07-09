@@ -8,6 +8,7 @@ TagManager:
   - Items
   - EnemyHead
   - Win
+  - Volume
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
+  - Platform
+  - FlyEnemy
   - 
   - 
   - 
