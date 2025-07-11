@@ -32,6 +32,8 @@ public class DinoMovement : MonoBehaviour
         //Initialize the references
         _enemyRigidbody2d = controller.Rigidbody2D;
         _animator = controller.Animator;
+
+        controller.TurnDirection += TurnDirection;
     }
 
     private void FixedUpdate()

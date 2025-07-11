@@ -8,11 +8,12 @@ public class EagleController : BaseEnemy
      *  Inherited from BaseEnemy:
      *  - [SerializeField] GameObject _deathObject;
      *  - [SerializeField] EnemiesStatsSO _statsSO;
-     *  - EnemiesRuntimeStats _stats;
+     *  - EnemiesRuntimeStats _stats; (All the stats of the enemy)
      *  
      *  - public void TakeDamage(float damage);
      *  - public int GetDamage();
      *  - public void KillEnemy()
+     *  - public IEnumerator BlinkDamage();
      */
 
     // Variables ----------------------------------------
@@ -28,16 +29,16 @@ public class EagleController : BaseEnemy
     [Header("Eagle Triggers")]
     [SerializeField] private MultipleTriggers _followTrigger;
 
-    void Awake()
+    protected override void Awake()
     {
-        //initialize the stats
-        _stats = new EnemiesRuntimeStats(_statsSO);
+        base.Awake();
 
+        //Set the References
         _movement = GetComponent<EagleMovement>();
 
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
-        //Set events on Trigger
+        //Set events on Trigger Collider
         if(_followTrigger == null)
         {
             _followTrigger = GetComponentInChildren<MultipleTriggers>();
@@ -57,7 +58,7 @@ public class EagleController : BaseEnemy
     // Functions and Coroutines ------------------------------
 
     //Add blink effect when receive damage
-    private IEnumerator BlinkDamage()
+    public override IEnumerator BlinkDamage()
     {
         float _elapsed = 0f;
         float _blinkInterval = 0.1f;

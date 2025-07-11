@@ -128,7 +128,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.10799277, y: 0.16198906}
+  m_Offset: {x: -0.084122896, y: 0.16198906}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -138,7 +138,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9136059, y: 0.2296521}
+  m_Size: {x: 1.1332086, y: 0.2296521}
   m_EdgeRadius: 0
 --- !u!1 &7733266920895373314
 GameObject:
@@ -281,14 +281,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.102356315, y: 0.063352495}
-      - {x: -0.36085382, y: 0.09581956}
+    - - {x: 0.07057421, y: 0.2752326}
+      - {x: -0.38204172, y: 0.279449}
       - {x: -0.67029357, y: 0.1101387}
       - {x: -0.67656386, y: -0.8097322}
       - {x: 0.2575934, y: -0.8152677}
       - {x: 0.57955605, y: -0.50553554}
       - {x: 0.57678825, y: -0.08026608}
-      - {x: 0.28811944, y: 0.071511075}
+      - {x: 0.33755812, y: 0.13860646}
   m_UseDelaunayMesh: 0
 --- !u!50 &8235900012370562871
 Rigidbody2D:
@@ -371,3 +371,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deathObject: {fileID: 2728273155367265763, guid: 965a9e65551f4884081dd90e5789f2cd, type: 3}
   _statsSO: {fileID: 11400000, guid: ab2cc8f5e6bf4a54aa9fc5799a2df2a3, type: 2}
+  _stats:
+    _maxHp: 0
+    _currentHp: 0
+    _moveSpeed: 0
+    _baseDamage: 0
+    _pointsValue: 0

@@ -1,6 +1,4 @@
 using System;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _hitStun = 1f;
     private float _stunnedTime = 0f;
     private bool _isTakingDamage;
-    public bool IsTakingDamage => _isTakingDamage;
 
     [Header("Animation")]
     private Animator _animator;
