@@ -18,8 +18,6 @@ public class SlimerController : BaseEnemy
     // References -------------------------
     public Rigidbody2D Rigidbody2D { get; private set; }
 
-    // Events -----------------------------
-    public event Action TurnDirection;
     protected override void Awake()
     {
         base.Awake();
@@ -32,9 +30,7 @@ public class SlimerController : BaseEnemy
     // Colliders -------------------------------------------
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-            TurnDirection?.Invoke();
-        else if (collision.gameObject.CompareTag("Respawn"))
+        if (collision.gameObject.CompareTag("Respawn"))
             Destroy(this.gameObject);
     }
 

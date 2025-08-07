@@ -72,9 +72,12 @@ public class PlayerController : MonoBehaviour
     private  IEnumerator Invulnerability()
     {
         _isInvulnerable = true;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);
 
         yield return new WaitForSeconds(1.5f);
 
         _isInvulnerable = false;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
+
     }
 }

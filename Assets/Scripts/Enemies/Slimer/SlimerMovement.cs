@@ -29,7 +29,6 @@ public class SlimerMovement : MonoBehaviour
         _controller = GetComponent<SlimerController>();
 
         _rigidbody = _controller.Rigidbody2D;
-        _controller.TurnDirection += TurnDirection;
 
         _groundLayer = LayerMask.GetMask("Ground", "Platform");
         _hitLayer = LayerMask.GetMask("Ground", "Player");
