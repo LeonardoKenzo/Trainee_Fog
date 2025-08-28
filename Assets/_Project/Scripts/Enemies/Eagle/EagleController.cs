@@ -43,7 +43,7 @@ public class EagleController : BaseEnemy
         {
             _followTrigger = GetComponentInChildren<MultipleTriggers>();
         }
-        _followTrigger.EnteredTrigger += OnFollowTriggerEnter;
+        _followTrigger.StayedTrigger += OnFollowTriggerStay;
         _followTrigger.ExitedTrigger += OnFollowTriggerExit;
     }
 
@@ -107,7 +107,7 @@ public class EagleController : BaseEnemy
     }
 
     // OnTriggerEnter and OnTriggerExit------------------------------
-    private void OnFollowTriggerEnter(Collider2D collision)
+    private void OnFollowTriggerStay(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player")){
             if (!_isFollowing)
