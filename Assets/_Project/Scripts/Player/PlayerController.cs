@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Variables ---------------------------------------
+    private LayerMask _enemiesLayer;
     private bool _isInvulnerable = false;
 
     // Scripts -----------------------------------------
@@ -24,9 +25,7 @@ public class PlayerController : MonoBehaviour
         Animator = GetComponent<Animator>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
-        //Guarantee the collision
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("FlyEnemy"), LayerMask.NameToLayer("Player"), false);
+        _enemiesLayer = LayerMask.GetMask("Enemy", "FlyEnemy");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -68,13 +67,11 @@ public class PlayerController : MonoBehaviour
     private  IEnumerator Invulnerability()
     {
         _isInvulnerable = true;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("FlyEnemy"), LayerMask.NameToLayer("Player"), true);
+        Physics2D.IgnoreLayerCollision(_enemiesLayer, LayerMask.NameToLayer("Player"), true);
 
         yield return new WaitForSeconds(1.5f);
 
         _isInvulnerable = false;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("FlyEnemy"), LayerMask.NameToLayer("Player"), false);
+        Physics2D.IgnoreLayerCollision(_enemiesLayer, LayerMask.NameToLayer("Player"), false);
     }
 }
