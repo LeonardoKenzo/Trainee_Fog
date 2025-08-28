@@ -238,6 +238,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deathObject: {fileID: 2728273155367265763, guid: 965a9e65551f4884081dd90e5789f2cd, type: 3}
   _statsSO: {fileID: 11400000, guid: 8ceb0b8eaf8ae1c40822ba004bddf36e, type: 2}
+  _stats:
+    _maxHp: 0
+    _currentHp: 0
+    _moveSpeed: 0
+    _baseDamage: 0
+    _pointsValue: 0
   _followTrigger: {fileID: 2749751340204978939}
 --- !u!114 &7232444304334752645
 MonoBehaviour:
@@ -252,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidBody: {fileID: 3003310054734089070}
-  smoothTime: 0.5
+  smoothTime: 0.8
 --- !u!60 &4460026347022705584
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -55,10 +55,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //make the ground check
         _groundCheck = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _groundCheckPositionHeight), _groundCheckSize, 0, _groundLayer);
-    }
-
-    void Update()
-    {
+        
         //is is stunned, stop moving normaly
         if(_stunnedTime > 0f)
         {

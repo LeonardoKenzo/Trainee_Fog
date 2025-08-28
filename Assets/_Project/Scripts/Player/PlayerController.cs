@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Variables ---------------------------------------
+    private LayerMask _enemiesLayer;
     private bool _isInvulnerable = false;
 
     // Scripts -----------------------------------------
@@ -14,7 +15,6 @@ public class PlayerController : MonoBehaviour
     // References --------------------------------------
     public Animator Animator {  get; private set; }
     public Rigidbody2D Rigidbody2D { get; private set; }
-    [SerializeField] private GameObject _winpanel;
 
     private void Awake()
     {
@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
         Animator = GetComponent<Animator>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
+
+        _enemiesLayer = LayerMask.GetMask("Enemy", "FlyEnemy");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -58,13 +60,6 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponentInParent<IDamageDealer>().TakeDamage(_playerStats.Damage);
             _playerMovement.JumpAttack();
         }
-
-        //Complete the level
-        else if (collision.gameObject.CompareTag("Win"))
-        {
-            Time.timeScale = 0f;
-            _winpanel.SetActive(true);
-        }
     }
     // Functions and Coroutines --------------------------------------
 
@@ -72,12 +67,11 @@ public class PlayerController : MonoBehaviour
     private  IEnumerator Invulnerability()
     {
         _isInvulnerable = true;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);
+        Physics2D.IgnoreLayerCollision(_enemiesLayer, LayerMask.NameToLayer("Player"), true);
 
         yield return new WaitForSeconds(1.5f);
 
         _isInvulnerable = false;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
-
+        Physics2D.IgnoreLayerCollision(_enemiesLayer, LayerMask.NameToLayer("Player"), false);
     }
 }

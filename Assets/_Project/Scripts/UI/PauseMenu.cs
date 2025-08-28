@@ -28,8 +28,15 @@ public class PauseMenu : MonoBehaviour
     public void RestartButton()
     {
         Time.timeScale = 1f;
+        PointsManager.Instance.RestartPoints();
         MusicManager.PlayMusic(false);
         SceneManager.LoadScene(1);
+    }
+
+    public void NextLevel()
+    {
+        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(nextScene);
     }
 
     public void Pause()

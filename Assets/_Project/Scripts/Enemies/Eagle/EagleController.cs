@@ -47,7 +47,7 @@ public class EagleController : BaseEnemy
         _followTrigger.ExitedTrigger += OnFollowTriggerExit;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_isFollowing)
         {

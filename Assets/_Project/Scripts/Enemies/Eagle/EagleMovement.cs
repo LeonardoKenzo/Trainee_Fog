@@ -5,7 +5,7 @@ public class EagleMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] Rigidbody2D _rigidBody;
-    [SerializeField] private float smoothTime = 0.2f;
+    [SerializeField] private float smoothTime = 0.5f;
     private Vector3 _moveSpeed = Vector3.zero; //calculated by SmoothDamp
 
     private void Start()

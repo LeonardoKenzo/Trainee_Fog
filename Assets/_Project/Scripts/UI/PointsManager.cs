@@ -42,4 +42,9 @@ public class PointsManager
     {
         Points -= points;
     }
+
+    public void RestartPoints()
+    {
+        Points = 0;
+    }
 }
