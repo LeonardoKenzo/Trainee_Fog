@@ -41,13 +41,18 @@ public class DinoController : BaseEnemy
         _dinoMovement.MoveSpeed = _stats.MoveSpeed;
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player"))
             _dinoMovement.StunTime = 1f;
         else if (collision.gameObject.CompareTag("Enemy"))
             TurnDirection?.Invoke();
+    }
+
+    // Functions -------------------------------------------------
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     // BaseEnemy Functions ----------------------------------------

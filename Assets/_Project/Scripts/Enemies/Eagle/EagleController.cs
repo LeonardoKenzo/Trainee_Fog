@@ -17,8 +17,8 @@ public class EagleController : BaseEnemy
      */
 
     // Variables ----------------------------------------
+    [SerializeField] private bool _isFollowing = false;
     private GameObject _player;
-    private bool _isFollowing = false;
 
     // Scripts ------------------------------------------
     private EagleMovement _movement;
@@ -43,7 +43,7 @@ public class EagleController : BaseEnemy
         {
             _followTrigger = GetComponentInChildren<MultipleTriggers>();
         }
-        _followTrigger.EnteredTrigger += OnFollowTriggerEnter;
+        _followTrigger.StayedTrigger += OnFollowTriggerStay;
         _followTrigger.ExitedTrigger += OnFollowTriggerExit;
     }
 
@@ -64,7 +64,6 @@ public class EagleController : BaseEnemy
         float _blinkInterval = 0.1f;
         bool _isTransparent = true;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        _isFollowing = false;
 
         while (_elapsed < 0.5f)
         {
@@ -95,8 +94,6 @@ public class EagleController : BaseEnemy
         finalColor.a = 1f;
         spriteRenderer.color = finalColor;
         _isTransparent = false;
-
-        _isFollowing = true;
     }
 
     private IEnumerator StopFollowPlayer(float delay)
@@ -107,7 +104,7 @@ public class EagleController : BaseEnemy
     }
 
     // OnTriggerEnter and OnTriggerExit------------------------------
-    private void OnFollowTriggerEnter(Collider2D collision)
+    private void OnFollowTriggerStay(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player")){
             if (!_isFollowing)

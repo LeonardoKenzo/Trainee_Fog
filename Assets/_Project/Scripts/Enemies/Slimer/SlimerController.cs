@@ -34,7 +34,13 @@ public class SlimerController : BaseEnemy
             Destroy(this.gameObject);
     }
 
-    //IDamageDealer Functions ------------------------------
+    // Functions ------------------------------------------
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
+    // BaseEnemy Functions ------------------------------
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
