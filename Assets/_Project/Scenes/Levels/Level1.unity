@@ -16642,7 +16642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507763787723774845, guid: 106c88de08aed73419bf01203d7f4ba8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.2631326
+      value: 8.82
       objectReference: {fileID: 0}
     - target: {fileID: 6507763787723774845, guid: 106c88de08aed73419bf01203d7f4ba8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17634,16 +17634,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 50, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 10
-      m_TileSpriteIndex: 10
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 61, y: 0, z: 0}
     second:
       serializedVersion: 2
@@ -18206,7 +18196,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 2d2ce2242f57343448894ce58fa24857, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: d67b5debc2d6cab45b51cec3cca30a59, type: 2}
-  - m_RefCount: 5
+  - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 227b1cea8f15648479f07e8d454dd3ec, type: 2}
   - m_RefCount: 6
     m_Data: {fileID: 11400000, guid: aae0a74361c96b140bbf212430f47574, type: 2}
@@ -18237,7 +18227,7 @@ Tilemap:
     m_Data: {fileID: 21300202, guid: c2aa0e18aeabf204fa2861a357724af7, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 21300186, guid: c2aa0e18aeabf204fa2861a357724af7, type: 3}
-  - m_RefCount: 5
+  - m_RefCount: 4
     m_Data: {fileID: 21300188, guid: c2aa0e18aeabf204fa2861a357724af7, type: 3}
   - m_RefCount: 6
     m_Data: {fileID: 21300168, guid: c2aa0e18aeabf204fa2861a357724af7, type: 3}
@@ -18248,7 +18238,7 @@ Tilemap:
   - m_RefCount: 30
     m_Data: {fileID: 21300218, guid: c2aa0e18aeabf204fa2861a357724af7, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 95
+  - m_RefCount: 94
     m_Data:
       e00: 1
       e01: 0
@@ -18267,7 +18257,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 95
+  - m_RefCount: 94
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -20791,7 +20781,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: b6dc04f2884eb5b46b675390b1e75e84, type: 3}
   m_Resource: {fileID: 8300000, guid: b6dc04f2884eb5b46b675390b1e75e84, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -22346,6 +22336,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7147969677820249596, guid: 065a73ce149aaa140826fab14c255120, type: 3}
+      propertyPath: m_Value
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 7307902325820731371, guid: 065a73ce149aaa140826fab14c255120, type: 3}
       propertyPath: m_Name
       value: '[UI]'
@@ -22539,6 +22533,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1216759231490070493, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
+      propertyPath: FollowOffset.y
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 5525149091065383851, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -22582,6 +22580,14 @@ PrefabInstance:
     - target: {fileID: 6224772706912165414, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: m_Name
       value: '[Camera]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6585954819368172887, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7167567326122411094, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.0614686
       objectReference: {fileID: 0}
     - target: {fileID: 8890404362148886117, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: Target.TrackingTarget

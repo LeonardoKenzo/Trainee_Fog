@@ -25972,6 +25972,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1216759231490070493, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
+      propertyPath: FollowOffset.y
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4524745692437457933, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
       value: 10
@@ -26106,15 +26110,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6585954819368172887, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9966029
+      value: -1.3966029
       objectReference: {fileID: 0}
     - target: {fileID: 7167567326122411094, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.79884
+      value: -4.798833
       objectReference: {fileID: 0}
     - target: {fileID: 7167567326122411094, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9966029
+      value: -1.39554
       objectReference: {fileID: 0}
     - target: {fileID: 8890404362148886117, guid: efe0f8e0eaae87a4fb21658213f2fb84, type: 3}
       propertyPath: Target.TrackingTarget
@@ -26462,6 +26466,10 @@ PrefabInstance:
     - target: {fileID: 4849754010400819149, guid: 065a73ce149aaa140826fab14c255120, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7147969677820249596, guid: 065a73ce149aaa140826fab14c255120, type: 3}
+      propertyPath: m_Value
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 7307902325820731371, guid: 065a73ce149aaa140826fab14c255120, type: 3}
       propertyPath: m_Name
@@ -29120,7 +29128,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: b6dc04f2884eb5b46b675390b1e75e84, type: 3}
   m_Resource: {fileID: 8300000, guid: b6dc04f2884eb5b46b675390b1e75e84, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
